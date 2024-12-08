@@ -13,9 +13,7 @@ namespace ConsoleEditor
 
         static int Main(string[] args)
         {
-            // Set deafult Console settings.
             Console.Clear();
-            Console.CursorVisible = false;
 
             var fileHandler = new FileHandler(@"C:\Users\willi\source\repos\ConsoleEditor\ConsoleEditor\test.txt");
             var autoResetEvent = new AutoResetEvent(false);
@@ -38,7 +36,6 @@ namespace ConsoleEditor
             { 
                 while (_displayBuffer)
                 {
-                    Console.Clear();
                     fileHandler.DisplayBuffer();
                     autoResetEvent.WaitOne();
                 }
@@ -48,7 +45,7 @@ namespace ConsoleEditor
             keyboardThread.Join();
             displayThread.Join();
 
-            Console.CursorVisible = true;
+
             return 0;
         }
     }

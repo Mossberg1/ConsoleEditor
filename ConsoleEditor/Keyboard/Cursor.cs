@@ -13,13 +13,9 @@ namespace ConsoleEditor.Keyboard
         public int Column { get; set; }
 
 
-        public void Display(char c) 
+        public void Display() 
         {
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write(c);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(Column, Row);
         }
 
 

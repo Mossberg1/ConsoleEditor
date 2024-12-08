@@ -32,16 +32,12 @@ namespace ConsoleEditor.FileManagement
             {
                 for (int col = 0; col < FileBuffer[row].Count; col++)
                 {
-                    if (_cursor.Row == row && _cursor.Column == col)
-                    {
-                        _cursor.Display(FileBuffer[row][col]);
-                    }
-                    else
-                    {
-                        Console.Write(FileBuffer[row][col]);
-                    }
+                    Console.SetCursorPosition(col, row);
+                    Console.Write(FileBuffer[row][col]);
                 }
             }
+
+            _cursor.Display();
         }
 
 

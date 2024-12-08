@@ -91,8 +91,7 @@ namespace ConsoleEditor.Keyboard
 
         private void MoveCursorRight() 
         {
-            int n = _buffer[_cursor.Row][^1] == '\n' ? 1 : 2;
-            if (_cursor.Column < _buffer[_cursor.Row].Count - n - 1)
+            if (_cursor.Column < _buffer[_cursor.Row].Count - 1)
             {
                 _cursor.MoveRight();
             }
