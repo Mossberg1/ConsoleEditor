@@ -9,8 +9,8 @@ namespace ConsoleEditor.Keyboard
 {
     internal class Cursor
     {
-        public int Row { get; private set; }
-        public int Column { get; private set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
 
         public void Display(char c) 

@@ -45,6 +45,12 @@ namespace ConsoleEditor.FileManagement
         }
 
 
+        public ref Cursor GetCursor() 
+        {
+            return ref _cursor;
+        }
+
+
         public int Open() 
         {
             using (StreamReader sr = new StreamReader(FilePath))
