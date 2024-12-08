@@ -75,7 +75,7 @@ namespace ConsoleEditor.Keyboard
         { 
             if (_cursor.Row > 0)
             {
-                _cursor.Row--;
+                _cursor.MoveUp();
             }
         }
 
@@ -84,16 +84,17 @@ namespace ConsoleEditor.Keyboard
         {
             if (_cursor.Column > 0)
             {
-                _cursor.Column--;
+                _cursor.MoveLeft();
             }
         }
 
 
         private void MoveCursorRight() 
         {
-            if (_cursor.Column < _buffer[_cursor.Row].Count - 1)
+            int n = _buffer[_cursor.Row][^1] == '\n' ? 1 : 2;
+            if (_cursor.Column < _buffer[_cursor.Row].Count - n - 1)
             {
-                _cursor.Column++;
+                _cursor.MoveRight();
             }
         }
 
@@ -102,7 +103,7 @@ namespace ConsoleEditor.Keyboard
         { 
             if (_cursor.Row < _buffer.Count - 1)
             {
-                _cursor.Row++;
+                _cursor.MoveDown();
             }
         }
     }

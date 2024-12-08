@@ -48,6 +48,7 @@ namespace ConsoleEditor
             keyboardThread.Join();
             displayThread.Join();
 
+            Console.CursorVisible = true;
             return 0;
         }
     }
