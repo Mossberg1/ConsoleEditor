@@ -8,7 +8,7 @@ namespace ConsoleEditor.Keyboard
         public int Column { get; set; }
 
 
-        public void Display() 
+        public void Set() 
         {
             Console.SetCursorPosition(Column, Row);
         }

@@ -30,12 +30,11 @@ namespace ConsoleEditor.FileManagement
             {
                 for (int col = 0; col < FileBuffer[row].Count; col++)
                 {
-                    Console.SetCursorPosition(col, row);
                     Console.Write(FileBuffer[row][col]);
                 }
             }
 
-            _cursor.Display();
+            _cursor.Set();
         }
 
 
