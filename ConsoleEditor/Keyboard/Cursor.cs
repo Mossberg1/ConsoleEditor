@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleEditor.Keyboard
 {
@@ -19,24 +14,28 @@ namespace ConsoleEditor.Keyboard
         }
 
 
+        // Method to move the cursor down.
         public void MoveDown() 
         {
             Row++;
         }
 
 
+        // Method to move the cursor left.
         public void MoveLeft() 
         {
             Column--;
         }
 
 
+        // Method to move the cursor right.
         public void MoveRight() 
         {
             Column++;
         }
 
 
+        // Method to move the cursor up.
         public void MoveUp() 
         {
             Row--;

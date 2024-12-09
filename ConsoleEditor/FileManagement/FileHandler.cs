@@ -1,11 +1,7 @@
 ﻿using ConsoleEditor.Keyboard;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleEditor.FileManagement
 {
@@ -26,6 +22,7 @@ namespace ConsoleEditor.FileManagement
         }
 
 
+        // Method to render the buffer to the console.
         public void DisplayBuffer() 
         {
             Console.Clear();
@@ -42,12 +39,14 @@ namespace ConsoleEditor.FileManagement
         }
 
 
+        // Method to get a refrence to the cursor, to pass to other constructors. (Maybe remove and make cursor public instead)
         public ref Cursor GetCursor() 
         {
             return ref _cursor;
         }
 
 
+        // Method to read the file into memory.
         public int Open() 
         {
             using (StreamReader sr = new StreamReader(FilePath))

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System;
-using ConsoleEditor.FileManagement;
-using System.IO;
+﻿using ConsoleEditor.FileManagement;
 using ConsoleEditor.Keyboard;
+using System;
 using System.Threading;
 
 namespace ConsoleEditor
@@ -20,6 +18,7 @@ namespace ConsoleEditor
 
             fileHandler.Open();
 
+            // Thread for listening for which keys the user pressed.
             var keyboardThread = new Thread(() =>
             {
                 var keyboardListener = new KeyboardListener(
@@ -32,6 +31,8 @@ namespace ConsoleEditor
             });
             keyboardThread.Start();
 
+
+            // Thread to render / rerender the buffer to the console when a key is pressed.
             var displayThread = new Thread(() =>
             { 
                 while (_displayBuffer)
@@ -41,6 +42,7 @@ namespace ConsoleEditor
                 }
             });
             displayThread.Start();
+
 
             keyboardThread.Join();
             displayThread.Join();
