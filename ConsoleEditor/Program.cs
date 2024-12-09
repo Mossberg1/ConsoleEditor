@@ -8,6 +8,7 @@ namespace ConsoleEditor
     internal class Program
     {
         private static bool _displayBuffer = true;
+        private static bool _exitSignal = false;
 
         static int Main(string[] args)
         {
@@ -28,6 +29,7 @@ namespace ConsoleEditor
                 );
                 keyboardListener.Listen();
                 _displayBuffer = false;
+                _exitSignal = true;
             });
             keyboardThread.Start();
 
@@ -35,7 +37,7 @@ namespace ConsoleEditor
             // Thread to render / rerender the buffer to the console when a key is pressed.
             var displayThread = new Thread(() =>
             { 
-                while (_displayBuffer)
+                while (_displayBuffer && !_exitSignal)
                 {
                     fileHandler.DisplayBuffer();
                     autoResetEvent.WaitOne();
@@ -47,6 +49,8 @@ namespace ConsoleEditor
             keyboardThread.Join();
             displayThread.Join();
 
+            Console.WriteLine("Press enter to close the editor...");
+            Console.ReadKey();
 
             return 0;
         }
