@@ -28,6 +28,7 @@ namespace ConsoleEditor.FileManagement
 
         public void DisplayBuffer() 
         {
+            Console.Clear();
             for (int row = 0; row < FileBuffer.Count; row++)
             {
                 for (int col = 0; col < FileBuffer[row].Count; col++)
