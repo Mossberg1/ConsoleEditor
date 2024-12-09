@@ -31,8 +31,10 @@ namespace ConsoleEditor.Keyboard
 
         // Method to listen for keys, and make descisions based on what key was pressed.
         public void Listen() 
-        { 
-            while (true)
+        {
+            bool runListener = true;
+
+            while (runListener)
             {
                 var keyInfo = Console.ReadKey(true);
 
@@ -42,7 +44,8 @@ namespace ConsoleEditor.Keyboard
                     {
                         case ConsoleKey.X:
                         {
-                            return;
+                            runListener = false;
+                            break;
                         }
                         default:
                         {

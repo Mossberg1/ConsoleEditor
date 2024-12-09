@@ -49,8 +49,9 @@ namespace ConsoleEditor
             keyboardThread.Join();
             displayThread.Join();
 
-            Console.WriteLine("Press enter to close the editor...");
-            Console.ReadKey();
+            Console.Clear();
+
+            Console.WriteLine("Closing editor...");
 
             return 0;
         }
