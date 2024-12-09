@@ -57,6 +57,9 @@ namespace ConsoleEditor.Keyboard
                         MoveCursorUp();
                         break;
                     }
+                    case ConsoleKey.Backspace:
+                        RemoveChar();
+                        break;
                     default:
                     {
                         return;
@@ -104,6 +107,21 @@ namespace ConsoleEditor.Keyboard
             {
                 _cursor.MoveDown();
             }
+        }
+
+
+        private void RemoveChar()
+        {
+            if (_cursor.Column - 1 >= 0)
+            {
+                _buffer[_cursor.Row].RemoveAt(_cursor.Column - 1);
+            }
+            else if (_cursor.Row - 1 >= 0)
+            {
+                _buffer[_cursor.Row - 1].RemoveAt(_buffer[_cursor.Row - 1].Count - 1);
+            }
+
+            MoveCursorLeft();
         }
     }
 }
