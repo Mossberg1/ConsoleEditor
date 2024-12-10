@@ -1,5 +1,4 @@
-﻿using ConsoleEditor.Keyboard;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -16,8 +15,8 @@ namespace ConsoleEditor.FileManagement
 
         public FileHandler(string fp)
         {
-            _cursor = new Cursor();
             FileBuffer = new List<List<char>>();
+            _cursor = new Cursor(FileBuffer);
             FilePath = fp;
         }
 
@@ -46,7 +45,7 @@ namespace ConsoleEditor.FileManagement
 
 
         // Method to read the file into memory.
-        public int Open() 
+        public int Read() 
         {
             using (StreamReader sr = new StreamReader(FilePath))
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using ConsoleEditor.FileManagement;
 
 namespace ConsoleEditor.Keyboard
 {
@@ -38,7 +39,8 @@ namespace ConsoleEditor.Keyboard
             {
                 var keyInfo = Console.ReadKey(true);
 
-                if (keyInfo.Modifiers != 0 && ConsoleModifiers.Control != 0)
+                // Handle key presses when CTRL is pressed.
+                if (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
                 {
                     switch (keyInfo.Key)
                     {
@@ -53,35 +55,52 @@ namespace ConsoleEditor.Keyboard
                         }
                     }
                 }
+                // Handle key presses when shift is pressed.
+                else if (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Shift))
+                {
+                    switch (keyInfo.Key)
+                    {
+                        case ConsoleKey.D1:
+                        {
+                            _cursor.WriteChar('!');
+                            break;
+                        }
+                    }
+                }
+                // Handle every other key presses.
                 else
                 {
                     switch (keyInfo.Key)
                     {
                         case ConsoleKey.DownArrow:
                         {
-                            MoveCursorDown();
+                            _cursor.MoveDown();
                             break;
                         }
                         case ConsoleKey.LeftArrow:
                         {
-                            MoveCursorLeft();
+                            _cursor.MoveLeft();
                             break;
                         }
                         case ConsoleKey.RightArrow:
                         {
-                            MoveCursorRight();
+                            _cursor.MoveRight();
                             break;
                         }
                         case ConsoleKey.UpArrow:
                         {
-                            MoveCursorUp();
+                            _cursor.MoveUp();
                             break;
                         }
                         case ConsoleKey.Backspace:
-                            RemoveChar();
+                            _cursor.RemoveChar();
                             break;
                         default:
                         {
+                            if (Char.IsLetter(keyInfo.KeyChar))
+                            {
+                                _cursor.WriteChar(keyInfo.KeyChar);
+                            }
                             break;
                         }
                     }
@@ -92,69 +111,6 @@ namespace ConsoleEditor.Keyboard
                     _autoResetEvent.Set();
                 }
             }
-        }
-
-
-        // Method to move cursor up
-        private void MoveCursorUp() 
-        { 
-            if (_cursor.Row > 0)
-            {
-                _cursor.MoveUp();
-            }
-        }
-
-
-        // Method to move cursor left.
-        private void MoveCursorLeft() 
-        {
-            if (_cursor.Column > 0)
-            {
-                _cursor.MoveLeft();
-            }
-        }
-
-
-        // Method to move cursor right.
-        private void MoveCursorRight() 
-        {
-            if (_cursor.Column < _buffer[_cursor.Row].Count - 1)
-            {
-                _cursor.MoveRight();
-            }
-        }
-
-
-        // Method to move cursor down.
-        private void MoveCursorDown() 
-        { 
-            if (_cursor.Row < _buffer.Count - 1)
-            {
-                _cursor.MoveDown();
-            }
-        }
-
-
-        // Method to remove a char from the buffer.
-        private void RemoveChar()
-        {
-            if (_cursor.Column - 1 >= 0)
-            {
-                _buffer[_cursor.Row].RemoveAt(_cursor.Column - 1);
-            }
-            else if (_cursor.Row - 1 >= 0)
-            {
-                //_buffer[_cursor.Row - 1].RemoveAt(_buffer[_cursor.Row - 1].Count - 1);
-                var previousRow = _buffer[_cursor.Row - 1];
-                var currentRow = _buffer[_cursor.Row];
-                previousRow.RemoveAt(previousRow.Count - 1);
-                previousRow.AddRange(currentRow);
-                _buffer.RemoveAt(_cursor.Row);
-                _cursor.MoveUp();
-                _cursor.Column = previousRow.Count;
-            }
-
-            MoveCursorLeft();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ConsoleEditor
             var fileHandler = new FileHandler(@"C:\Users\willi\source\repos\ConsoleEditor\ConsoleEditor\test.txt");
             var autoResetEvent = new AutoResetEvent(false);
 
-            fileHandler.Open();
+            fileHandler.Read();
 
             // Thread for listening for which keys the user pressed.
             var keyboardThread = new Thread(() =>
@@ -34,7 +34,7 @@ namespace ConsoleEditor
             keyboardThread.Start();
 
 
-            // Thread to render / rerender the buffer to the console when a key is pressed.
+            // Thread to render the buffer to the console when a key is pressed.
             var displayThread = new Thread(() =>
             { 
                 while (_displayBuffer && !_exitSignal)
