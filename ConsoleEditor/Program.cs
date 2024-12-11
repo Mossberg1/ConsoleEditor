@@ -25,7 +25,8 @@ namespace ConsoleEditor
                 var keyboardListener = new KeyboardListener(
                     fileHandler.FileBuffer, 
                     fileHandler.GetCursor(),
-                    autoResetEvent
+                    autoResetEvent,
+                    fileHandler
                 );
                 keyboardListener.Listen();
                 _displayBuffer = false;

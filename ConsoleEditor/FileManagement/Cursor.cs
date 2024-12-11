@@ -46,6 +46,13 @@ namespace ConsoleEditor.FileManagement
         }
 
 
+        // Method to move to the start of the line.
+        public void MoveStart() 
+        {
+            Column = 0;
+        }
+
+
         // Method to move the cursor up.
         public void MoveUp()
         {
@@ -53,6 +60,32 @@ namespace ConsoleEditor.FileManagement
             {
                 Row--;
             }
+        }
+
+
+        // Method to write new line.
+        public void NewLine() 
+        { 
+            if (Row < 0 || Row >= _buffer.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if (Column == _buffer[Row].Count - 1)
+            {
+                _buffer.Insert(Row + 1, new List<char>() { '\n' });
+            }
+            else
+            {
+                WriteChar('\n');
+                _buffer.Insert(Row + 1, new List<char>());
+                _buffer[Row + 1].AddRange(_buffer[Row].GetRange(Column, _buffer[Row].Count - (Column + 1)));
+                _buffer[Row + 1].Add('\n');
+                _buffer[Row].RemoveRange(Column, _buffer[Row].Count - (Column + 1) + 1);
+            }
+
+            MoveStart();
+            MoveDown();
         }
 
 
@@ -90,6 +123,17 @@ namespace ConsoleEditor.FileManagement
         {
             _buffer[Row].Insert(Column, ch);
             MoveRight();
+        }
+
+
+        // Method to write a tab / 4 spaces.
+        public void WriteTab() 
+        { 
+            for (int i = 0; i < 4; i++)
+            {
+                _buffer[Row].Insert(Column, ' ');
+                MoveRight();
+            }
         }
 
     }

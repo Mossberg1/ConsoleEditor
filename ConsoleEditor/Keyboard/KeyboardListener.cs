@@ -11,22 +11,25 @@ namespace ConsoleEditor.Keyboard
         private AutoResetEvent? _autoResetEvent;
         private List<List<char>> _buffer;
         private Cursor _cursor;
+        private FileHandler _fileHandler;
 
 
-        public KeyboardListener(List<List<char>> buffer, Cursor cursor)  
+        public KeyboardListener(List<List<char>> buffer, Cursor cursor, FileHandler fileHandler)  
         {
             _buffer = buffer;
             _cursor = cursor;
+            _fileHandler = fileHandler;
         }
 
 
         /* Use this constructor if using a separate thread for listening for key presses. 
          * Pass AutoResetEvent to communicate with other threads. */
-        public KeyboardListener(List<List<char>> buffer, Cursor cursor, AutoResetEvent autoResetEvent) 
+        public KeyboardListener(List<List<char>> buffer, Cursor cursor, AutoResetEvent autoResetEvent, FileHandler fileHandler) 
         { 
             _autoResetEvent = autoResetEvent;
             _buffer = buffer;
             _cursor = cursor;
+            _fileHandler = fileHandler;
         }
 
 
@@ -44,7 +47,12 @@ namespace ConsoleEditor.Keyboard
                 {
                     switch (keyInfo.Key)
                     {
-                        case ConsoleKey.X:
+                        case ConsoleKey.W:
+                        {
+                            _fileHandler.Write();
+                            break;
+                        }
+                        case ConsoleKey.Q:
                         {
                             runListener = false;
                             break;
@@ -65,6 +73,14 @@ namespace ConsoleEditor.Keyboard
                             _cursor.WriteChar('!');
                             break;
                         }
+                        default:
+                        {
+                            if (Char.IsLetter(keyInfo.KeyChar))
+                            {
+                                _cursor.WriteChar(Char.ToUpper(keyInfo.KeyChar));
+                            }
+                            break;
+                        }
                     }
                 }
                 // Handle every other key presses.
@@ -72,9 +88,19 @@ namespace ConsoleEditor.Keyboard
                 {
                     switch (keyInfo.Key)
                     {
+                        case ConsoleKey.Backspace:
+                        {
+                            _cursor.RemoveChar();
+                            break;
+                        }                            
                         case ConsoleKey.DownArrow:
                         {
                             _cursor.MoveDown();
+                            break;
+                        }
+                        case ConsoleKey.Enter:
+                        {
+                            _cursor.NewLine();
                             break;
                         }
                         case ConsoleKey.LeftArrow:
@@ -92,9 +118,16 @@ namespace ConsoleEditor.Keyboard
                             _cursor.MoveUp();
                             break;
                         }
-                        case ConsoleKey.Backspace:
-                            _cursor.RemoveChar();
+                        case ConsoleKey.Spacebar:
+                        {
+                            _cursor.WriteChar(' ');
                             break;
+                        }
+                        case ConsoleKey.Tab:
+                        {
+                            _cursor.WriteTab();
+                            break; 
+                        }
                         default:
                         {
                             if (Char.IsLetter(keyInfo.KeyChar))

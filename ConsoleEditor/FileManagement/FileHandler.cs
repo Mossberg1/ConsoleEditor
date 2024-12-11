@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ConsoleEditor.FileManagement
 {
@@ -33,6 +34,10 @@ namespace ConsoleEditor.FileManagement
                 }
             }
 
+            Console.WriteLine("\nCONTROLS:\n\tCTRL + Q = Close | CTRL + W = Write");
+            Console.WriteLine($"DEBUG:\n\tRow: {_cursor.Row}, Col: {_cursor.Column}");
+            Console.WriteLine($"\tTotal Rows: {FileBuffer.Count}, Total Cols: {FileBuffer[_cursor.Row].Count}");
+
             _cursor.Set();
         }
 
@@ -47,16 +52,48 @@ namespace ConsoleEditor.FileManagement
         // Method to read the file into memory.
         public int Read() 
         {
-            using (StreamReader sr = new StreamReader(FilePath))
+            try
             {
-                string? line;
-                while ((line = sr.ReadLine()) != null)
+                using (var sr = new StreamReader(FilePath))
                 {
-                    var row = new List<char>(line);
-                    row.Add('\n'); 
-                    FileBuffer.Add(row);
+                    string? line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        var row = new List<char>(line);
+                        row.Add('\n');
+                        FileBuffer.Add(row);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return 0;
+        }
+
+
+        // Method to write file to disk.
+        public int Write() 
+        {
+            try
+            {
+                using (var sw = new StreamWriter(FilePath))
+                {
+                    foreach (var row in FileBuffer)
+                    {
+                        foreach (var col in row)
+                        {
+                            sw.Write(col);
+                        }
+                    }
+                }
+            }
+            catch (Exception e) 
+            {
+                throw;
+            }  
 
             return 0;
         }
