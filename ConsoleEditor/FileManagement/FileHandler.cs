@@ -34,9 +34,10 @@ namespace ConsoleEditor.FileManagement
                 }
             }
 
-            Console.WriteLine("\nCONTROLS:\n\tCTRL + Q = Close | CTRL + W = Write");
-            Console.WriteLine($"DEBUG:\n\tRow: {_cursor.Row}, Col: {_cursor.Column}");
-            Console.WriteLine($"\tTotal Rows: {FileBuffer.Count}, Total Cols: {FileBuffer[_cursor.Row].Count}");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("\nCTRL + Q = Close | CTRL + W = Write | CTRL + Z = Undo");
+            Console.ResetColor();
 
             _cursor.Set();
         }

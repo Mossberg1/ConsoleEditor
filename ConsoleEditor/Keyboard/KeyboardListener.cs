@@ -47,16 +47,22 @@ namespace ConsoleEditor.Keyboard
                 {
                     switch (keyInfo.Key)
                     {
-                        case ConsoleKey.W:
-                        {
-                            _fileHandler.Write();
-                            break;
-                        }
                         case ConsoleKey.Q:
                         {
                             runListener = false;
                             break;
                         }
+                        case ConsoleKey.W:
+                        {
+                            _fileHandler.Write();
+                            Console.Clear();
+                            Console.WriteLine("Wrote the file to disk. Press any key to go back to the file...");
+                            Console.ReadKey(true);
+                            break;
+                        }
+                        case ConsoleKey.Z:
+                            _cursor.Undo();
+                            break;
                         default:
                         {
                             break;

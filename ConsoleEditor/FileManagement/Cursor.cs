@@ -1,18 +1,25 @@
-﻿using System;
+﻿using ConsoleEditor.Enumerations;
+using ConsoleEditor.Structs;
+using System;
 using System.Collections.Generic;
 
 namespace ConsoleEditor.FileManagement
 {
     internal class Cursor
     {
-        public int Row { get; private set; }
         public int Column { get; private set; }
+        public int Row { get; private set; }
+
         private List<List<char>> _buffer;
+        private Position[] _previousPositions;
+        private List<Change> _changes;
 
 
         public Cursor(List<List<char>> buf)
         {
             _buffer = buf;
+            _previousPositions = new Position[_buffer.Count];
+            _changes = new List<Change>();
         }
 
 
@@ -90,8 +97,19 @@ namespace ConsoleEditor.FileManagement
 
 
         // Method to remove a char from the buffer.
-        public void RemoveChar()
+        public void RemoveChar(bool saveChange = true)
         {
+            if (saveChange)
+            {
+                _changes.Add(new Change
+                {
+                    Column = this.Column - 1,
+                    Row = this.Row,
+                    Operation = CursorOperation.Delete,
+                    Character = _buffer[Row][Column - 1]
+                });
+            }
+
             if (Column - 1 >= 0)
             {
                 _buffer[Row].RemoveAt(Column - 1);
@@ -118,9 +136,49 @@ namespace ConsoleEditor.FileManagement
         }
 
 
+        // Method to undo changes
+        public void Undo() 
+        { 
+            if (_changes.Count == 0)
+            {
+                return;
+            }
+
+            var change = _changes[^1];
+
+            if (change.Operation == CursorOperation.Delete)
+            {
+                Row = change.Row;
+                Column = change.Column;
+                Set();
+                WriteChar(change.Character, false);
+            }
+            else
+            {
+                Row = change.Row;
+                Column = change.Column + 1;
+                Set();
+                RemoveChar(false);
+            }
+
+            _changes.RemoveAt(_changes.Count - 1);
+        }
+
+
         // Method to write a char to the buffer.
-        public void WriteChar(char ch)
+        public void WriteChar(char ch, bool saveChange = true)
         {
+            if (saveChange)
+            {
+                _changes.Add(new Change
+                {
+                    Column = this.Column,
+                    Row = this.Row,
+                    Operation = CursorOperation.Write,
+                    Character = ch
+                });
+            }
+            
             _buffer[Row].Insert(Column, ch);
             MoveRight();
         }

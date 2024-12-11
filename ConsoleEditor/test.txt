@@ -1,4 +1,4 @@
 Hello, World!
-This is a other test!
+This is my text editor!
 This is a test for updating the file content!
 
