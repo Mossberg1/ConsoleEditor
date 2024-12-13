@@ -72,28 +72,6 @@ namespace ConsoleEditor.Keyboard
                         }
                     }
                 }
-                // Handle key presses when shift is pressed.
-                else if (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Shift))
-                {
-                    switch (keyInfo.Key)
-                    {
-                        // Shift + 1 writes '!'
-                        case ConsoleKey.D1:
-                        {
-                            _cursor.WriteChar('!');
-                            break;
-                        }
-                        // Default behavior is write uppercase char if the key pressed with shit is a char.
-                        default:
-                        {
-                            if (Char.IsLetter(keyInfo.KeyChar))
-                            {
-                                _cursor.WriteChar(Char.ToUpper(keyInfo.KeyChar));
-                            }
-                            break;
-                        }
-                    }
-                }
                 // Handle every other key presses.
                 else
                 {
@@ -150,7 +128,7 @@ namespace ConsoleEditor.Keyboard
                         // Default write the char to the buffer if the key is a letter.
                         default:
                         {
-                            if (Char.IsLetter(keyInfo.KeyChar) || Char.IsDigit(keyInfo.KeyChar))
+                            if (Char.IsLetter(keyInfo.KeyChar) || Char.IsDigit(keyInfo.KeyChar) || Char.IsPunctuation(keyInfo.KeyChar))
                             {
                                 _cursor.WriteChar(keyInfo.KeyChar);
                             }
