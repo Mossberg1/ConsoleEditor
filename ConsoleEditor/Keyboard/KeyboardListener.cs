@@ -33,7 +33,7 @@ namespace ConsoleEditor.Keyboard
         }
 
 
-        // Method to listen for keys, and make descisions based on what key was pressed.
+        // Method to listen for keys, and make decisions based on what key was pressed.
         public void Listen() 
         {
             bool runListener = true;
@@ -47,11 +47,13 @@ namespace ConsoleEditor.Keyboard
                 {
                     switch (keyInfo.Key)
                     {
+                        // CTRL + Q quits the application.
                         case ConsoleKey.Q:
                         {
                             runListener = false;
                             break;
                         }
+                        // CTRL + W writes the file to disk.
                         case ConsoleKey.W:
                         {
                             _fileHandler.Write();
@@ -60,7 +62,8 @@ namespace ConsoleEditor.Keyboard
                             Console.ReadKey(true);
                             break;
                         }
-                        case ConsoleKey.Z:
+                        // CTRL + U undo most recent change, not using Z to be compatible with linux.
+                        case ConsoleKey.U:
                             _cursor.Undo();
                             break;
                         default:
@@ -74,11 +77,13 @@ namespace ConsoleEditor.Keyboard
                 {
                     switch (keyInfo.Key)
                     {
+                        // Shift + 1 writes '!'
                         case ConsoleKey.D1:
                         {
                             _cursor.WriteChar('!');
                             break;
                         }
+                        // Default behavior is write uppercase char if the key pressed with shit is a char.
                         default:
                         {
                             if (Char.IsLetter(keyInfo.KeyChar))
@@ -94,49 +99,58 @@ namespace ConsoleEditor.Keyboard
                 {
                     switch (keyInfo.Key)
                     {
+                        // Backspace key removes a char before the cursor.
                         case ConsoleKey.Backspace:
                         {
                             _cursor.RemoveChar();
                             break;
-                        }                            
+                        }      
+                        // Moves the cursor down to the next line.
                         case ConsoleKey.DownArrow:
                         {
                             _cursor.MoveDown();
                             break;
                         }
+                        // Enter key make a new line, and moves the cursor to the beginning of that new line.
                         case ConsoleKey.Enter:
                         {
                             _cursor.NewLine();
                             break;
                         }
+                        // Moves the cursor to the left.
                         case ConsoleKey.LeftArrow:
                         {
                             _cursor.MoveLeft();
                             break;
                         }
+                        // Moves the cursor to the right.
                         case ConsoleKey.RightArrow:
                         {
                             _cursor.MoveRight();
                             break;
                         }
+                        // Moves the cursor up one line.
                         case ConsoleKey.UpArrow:
                         {
                             _cursor.MoveUp();
                             break;
                         }
+                        // Writes a space char to the buffer.
                         case ConsoleKey.Spacebar:
                         {
                             _cursor.WriteChar(' ');
                             break;
                         }
+                        // Writes a tab (4 spaces) to the buffer
                         case ConsoleKey.Tab:
                         {
                             _cursor.WriteTab();
                             break; 
                         }
+                        // Default write the char to the buffer if the key is a letter.
                         default:
                         {
-                            if (Char.IsLetter(keyInfo.KeyChar))
+                            if (Char.IsLetter(keyInfo.KeyChar) || Char.IsDigit(keyInfo.KeyChar))
                             {
                                 _cursor.WriteChar(keyInfo.KeyChar);
                             }
@@ -144,7 +158,7 @@ namespace ConsoleEditor.Keyboard
                         }
                     }
                 }
-
+                
                 if (_autoResetEvent != null)
                 {
                     _autoResetEvent.Set();

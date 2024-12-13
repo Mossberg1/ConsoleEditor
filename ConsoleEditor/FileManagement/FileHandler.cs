@@ -66,8 +66,9 @@ namespace ConsoleEditor.FileManagement
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                Console.WriteLine($"{e.ToString()} occurred in FileHandler.Read()");
                 throw;
             }
 
@@ -91,8 +92,9 @@ namespace ConsoleEditor.FileManagement
                     }
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
+                Console.WriteLine($"{e.ToString()} occurred in FileHandler.Write()");
                 throw;
             }  
 

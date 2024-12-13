@@ -14,7 +14,12 @@ namespace ConsoleEditor
         {
             Console.Clear();
 
-            var fileHandler = new FileHandler(@"C:\Users\willi\source\repos\ConsoleEditor\ConsoleEditor\test.txt");
+            //string windowsFile = @"C:\Users\willi\source\repos\ConsoleEditor\ConsoleEditor\test.txt";
+            string linuxFile = "/home/mossberg/repos/ConsoleEditor/ConsoleEditor/test.txt";
+
+            string filePath = linuxFile;
+
+            var fileHandler = new FileHandler(filePath);
             var autoResetEvent = new AutoResetEvent(false);
 
             fileHandler.Read();

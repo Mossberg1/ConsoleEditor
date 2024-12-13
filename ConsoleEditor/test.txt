@@ -1,4 +1,4 @@
 Hello, World!
-This is my text editor!
-This is a test for updating the file content!
+This is my text and code editor
+This is a test for updating the file content in linux!
 
